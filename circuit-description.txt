@@ -1,0 +1,153 @@
+CIRCUIT DESCRIPTION
+===================
+
+Project Title:
+IoT-Based Automated Medicine Reminder Box for Aged Persons
+
+Microcontroller:
+Arduino Mega 2560 (ATmega2560)
+
+--------------------------------------------
+1. POWER SUPPLY SECTION
+--------------------------------------------
+- Input Supply: 7V–12V DC adapter or battery
+- Arduino Mega onboard regulator provides 5V
+- All modules operate at 5V logic level
+- Common GND must be connected to all components
+
+Connections:
+- Arduino 5V  -> RTC VCC, LCD VCC, IR Sensor VCC
+- Arduino GND -> RTC GND, LCD GND, IR Sensor GND, GSM GND
+
+--------------------------------------------
+2. RTC MODULE (DS3231)
+--------------------------------------------
+Purpose:
+Provides accurate real-time clock with battery backup.
+
+Connections:
+- DS3231 VCC  -> Arduino 5V
+- DS3231 GND  -> Arduino GND
+- DS3231 SDA  -> Arduino SDA (Pin 20)
+- DS3231 SCL  -> Arduino SCL (Pin 21)
+
+Notes:
+- CR2032 battery maintains time during power failure
+- Uses I2C communication
+
+--------------------------------------------
+3. LCD DISPLAY (16x2)
+--------------------------------------------
+Purpose:
+Displays current time, reminder status, and alerts.
+
+Mode:
+4-bit parallel mode
+
+Connections:
+- LCD VSS  -> GND
+- LCD VDD  -> 5V
+- LCD V0   -> 10k potentiometer (contrast control)
+- LCD RS   -> Arduino Digital Pin 22
+- LCD RW   -> GND
+- LCD EN   -> Arduino Digital Pin 23
+- LCD D4   -> Arduino Digital Pin 24
+- LCD D5   -> Arduino Digital Pin 25
+- LCD D6   -> Arduino Digital Pin 26
+- LCD D7   -> Arduino Digital Pin 27
+- LCD A    -> 5V through 220Ω resistor
+- LCD K    -> GND
+
+--------------------------------------------
+4. IR SENSOR (MEDICINE DETECTION)
+--------------------------------------------
+Purpose:
+Detects whether the medicine is taken from the box.
+
+Configuration:
+IR LED (Emitter) + IR Photodiode (Receiver)
+
+Connections:
+IR Emitter:
+- Anode  -> 5V through 220Ω resistor
+- Cathode -> GND
+
+IR Receiver:
+- Collector -> Arduino Digital Pin 28
+- Emitter   -> GND
+- Pull-up resistor (10kΩ) to 5V
+
+Working:
+- IR beam breaks when medicine is removed
+- Digital signal changes state and is read by Arduino
+
+--------------------------------------------
+5. BUZZER
+--------------------------------------------
+Purpose:
+Provides audible alert at medicine time.
+
+Connections:
+- Buzzer +ve -> Arduino Digital Pin 6
+- Buzzer -ve -> GND
+
+--------------------------------------------
+6. LED INDICATORS
+--------------------------------------------
+Purpose:
+Visual alert indicating medicine time.
+
+Connections:
+- LED Anode   -> Arduino Digital Pin 7
+- LED Cathode -> 220Ω resistor -> GND
+
+--------------------------------------------
+7. PUSH BUTTONS (OPTIONAL – SET TIME)
+--------------------------------------------
+Purpose:
+Used to set medicine reminder time.
+
+Connections:
+- One terminal -> Arduino Digital Pin (e.g., 30)
+- Other terminal -> GND
+- Internal pull-up enabled in code
+
+--------------------------------------------
+8. GSM MODULE (QUECTEL EC200U)
+--------------------------------------------
+Purpose:
+Sends SMS and makes phone calls to caregiver.
+
+Power Requirement:
+- External 5V / 2A power supply recommended
+
+UART Connections:
+- GSM TX -> Arduino RX1 (Pin 19)
+- GSM RX -> Arduino TX1 (Pin 18)
+- GSM GND -> Arduino GND
+
+Notes:
+- Logic level compatible with Arduino Mega
+- External antenna required for proper signal
+
+--------------------------------------------
+9. EEPROM
+--------------------------------------------
+Purpose:
+Stores reminder timings permanently.
+
+Details:
+- Internal EEPROM of ATmega2560 used
+- No external wiring required
+
+--------------------------------------------
+10. COMMON NOTES
+--------------------------------------------
+- All grounds must be common
+- Use decoupling capacitors (0.1µF) near modules
+- Keep GSM power lines thick and short
+- Avoid powering GSM from Arduino 5V pin
+
+--------------------------------------------
+END OF CIRCUIT DESCRIPTION
+--------------------------------------------
